@@ -1,0 +1,20 @@
+Steps to Test the Contract on REMIX:
+
+1. Open Remix (https://remix.ethereum.org/) 
+2. Here there will be a directory for contracts. 
+3. Under this directory create a new Solidity Smart Contract
+4. Copy the KYC.sol file and paste it here.
+5. Compile the Smart Contract and then click deploy adter selecting the Environment and test account
+6. Once it is successfully deployed click on the arrow next to the deployed contract to see all the functions which are accessible externally.
+7. Based on the datatype appropriate details need to be entered and the response are logged in the logs.
+
+For Example in Add Bank:
+name : "0x42616e6b31000000000000000000000000000000000000000000000000000000"
+addr : "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2"
+registration: "0x42616e6b31000000000000000000000000000000000000000000000000000000"
+
+Is a sample request
+
+As Bytes32 is suggested please be mindful to enter all the digits equaling the above sample in name. It is fixed in size and the newer Solidity versions require this. 
+Ensure the sol compiler is ^0.8.0; 
+

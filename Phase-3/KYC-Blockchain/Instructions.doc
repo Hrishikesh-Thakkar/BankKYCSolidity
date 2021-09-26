@@ -1,0 +1,55 @@
+Steps On how to Create the Ethereum Test Network:
+
+1. First geth needs to be installed on the target machine
+2. Then a directory should be created for this and the init.json should be kept here.
+3. Once that is done the geth command is used to create the data directory (geth --datadir ./datadir init ./init.json)
+4. In init.json we have to settings for the genesis block which include all the properties such chainId, gasLimit, nonce etc.
+5. Now to instantiate the network to accept the incoming requests to it we need to enable rpc (http) requests to do so the below command needs to be executed.
+ (geth --datadir ./datadir --networkid 2019 --rpc --rpcport 30303 --allow-insecure-unlock console)
+Here the network id and port need to be set. 
+6. Now we need to create an account on the Network, this can be done by using personal.newAccount("password")
+7. Then this account needs to be unlocked, personal.unlockAccount(eth.accounts[0],"password",0)
+8. Then we have to start mining on this node. miner.start() will start the mining process.
+9.With this the network is ready to have contract deployed.
+
+
+Steps On How to Deploy the Smart Contract to the Test Network:
+
+1. First in a new directory truffle init should be called. 
+2. Then the contract needs to be pasted in the contacts truffle directory.
+3. Then in the migration directory a new file is created 2_kyc_migration.js in which we add the contract to the project.
+4. Now we have to open the truffle config and add a configuration for geth node. This is inside the networks tab. 
+geth: {
+		host: "127.0.0.1",     // Localhost (default: none)
+		port: 30303,            // Standard Ethereum port (default: none)
+		network_id: "2019",       // Any network (default: none)
+     }
+5. Then execute truffle compile and truffle migrate --network geth which will deploy the code to the Geth Test Network.
+6. Once the migration is successful enter truffle console --network geth
+7. Inside this console we have to invoke the contract in the form of a variable
+let kyc = await KYCContract.deployed()
+8. Now we can execute commands like this: Example Request such as the one below.
+ kyc.addBank("0x42616e6b31000000000000000000000000000000000000000000000000000000","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2","0x42616e6b31000000000000000000000000000000000000000000000000000000")
+9. This is a sample response which can be returned. With this the contract has been successfully deployed and accessed.
+{
+  tx: '0xce1775dc141a990b3a5926a1008f811469993dea32963f6f9b9c0d77c0c7a12e',
+  receipt: {
+    blockHash: '0x7b4fc824005df132f604500d5ea3f78bf45fc4ff171043ccbed220c47118eec7',
+    blockNumber: 1590,
+    contractAddress: null,
+    cumulativeGasUsed: 6721975,
+    from: '0x32163189934243b4ff1c9e5e3aecf50489d38e81',
+    gasUsed: 6721975,
+    logs: [],
+    logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    root: '0x66759b8cce73f6e85db4e5b468e211c1fc568ba9f72373b5bec513fb7f2f5ad4',
+    to: '0x4eb7aca238fd5092855e106091eef419cc310f9c',
+    transactionHash: '0xce1775dc141a990b3a5926a1008f811469993dea32963f6f9b9c0d77c0c7a12e',
+    transactionIndex: 0,
+    type: '0x0',
+    rawLogs: []
+  },
+  logs: []
+}
+
+In this project all the configurations are set once the network is ready then truffle migrate is enough to test the project and truffle console commands to test.
